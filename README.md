@@ -49,7 +49,31 @@ tabItem.normalString = string
 ```swift
 var tabItems = Array<USGScrollingTabItem>()
 
+scrollingTabBar.pageWidth = view.width
 scrollingTabBar.reloadTabs(tabItems)
+```
+
+## スクロールビューの動きとタブバーを連動させる
+
+スクロールビューとの連動には UIScrollViewDelegate を使用します。
+
+```swift
+func scrollViewDidScroll(scrollView: UIScrollView) {
+	scrollingTabBar.enabled = !scrollView.tracking;
+	
+	if (scrollView.tracking || scrollView.decelerating) {
+		scrollingTabBar.scrollToOffset(scrollView.contentOffset.x)
+	}
+}
+
+func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+	scrollingTabBar.stopScrollDeceleration()
+	scrollingTabBar.enabled = false
+}
+
+func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+	scrollingTabBar.enabled = true
+}
 ```
 
 ## USGScrollingTabBarDelegate

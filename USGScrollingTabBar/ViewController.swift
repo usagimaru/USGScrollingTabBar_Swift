@@ -107,7 +107,7 @@ class ViewController: UIViewController {
 		
 		focusView.layer.cornerRadius = (scrollingTabBar.height - scrollingTabBar.focusVerticalMargin * 2.0) / 2.0
 		
-		scrollingTabBar.width = view.width - 20
+		scrollingTabBar.width = view.width
 		scrollingTabBar.pageWidth = scrollView.width;
 		scrollingTabBar.reloadTabs(tabItems)
 	}
