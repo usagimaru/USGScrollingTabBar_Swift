@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7cJ-A0-5Pj">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="USGScrollingTabBar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pYa-ms-Gmg">
+                                <rect key="frame" x="0.0" y="58" width="600" height="542"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="qNw-dT-Csi"/>
+                                </connections>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Lz-Jh-apA" customClass="USGScrollingTabBar" customModule="USGScrollingTabBar" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="20" width="600" height="30"/>
+                                <color key="backgroundColor" red="0.57647058823529407" green="0.49411764705882355" blue="0.71764705882352942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="ca7-pf-hZd"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="pYa-ms-Gmg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="6Mz-j5-tLU"/>
+                            <constraint firstItem="0Lz-Jh-apA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Arh-yq-Xo2"/>
+                            <constraint firstItem="pYa-ms-Gmg" firstAttribute="top" secondItem="0Lz-Jh-apA" secondAttribute="bottom" constant="8" id="Dxv-5Z-0oC"/>
+                            <constraint firstItem="0Lz-Jh-apA" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="HMv-v5-MJW"/>
+                            <constraint firstAttribute="trailing" secondItem="0Lz-Jh-apA" secondAttribute="trailing" id="cDE-Bd-y2d"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="pYa-ms-Gmg" secondAttribute="bottom" id="hrB-Ge-Ray"/>
+                            <constraint firstAttribute="trailing" secondItem="pYa-ms-Gmg" secondAttribute="trailing" id="tct-WT-rKX"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="i06-6N-yqx">
+                        <nil key="title"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="focusView" destination="Kxq-9P-WIZ" id="u1J-Dp-jIU"/>
+                        <outlet property="scrollView" destination="pYa-ms-Gmg" id="UQd-wn-Jtn"/>
+                        <outlet property="scrollingTabBar" destination="0Lz-Jh-apA" id="PJk-du-vVD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="Kxq-9P-WIZ">
+                    <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+            </objects>
+            <point key="canvasLocation" x="534" y="545"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="V3S-ch-QOb">
+            <objects>
+                <navigationController navigationBarHidden="YES" id="7cJ-A0-5Pj" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="If6-B6-KaX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="VjK-H0-Zap"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lj5-NI-8d2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-188" y="545"/>
+        </scene>
+    </scenes>
+</document>
