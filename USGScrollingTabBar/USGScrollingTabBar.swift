@@ -83,8 +83,6 @@ class USGScrollingTabBar: UIView {
 		collectionView!.scrollEnabled = true
 		addSubview(collectionView!)
 		
-		collectionView!.layer.borderColor = UIColor.redColor().CGColor
-		collectionView!.layer.borderWidth = 1.0
 		collectionView!.translatesAutoresizingMaskIntoConstraints = false
 		addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|",
 			options: NSLayoutFormatOptions(rawValue: 0),
