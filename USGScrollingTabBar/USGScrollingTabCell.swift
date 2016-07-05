@@ -66,6 +66,12 @@ class USGScrollingTabCell: UICollectionViewCell {
 	}
 	
 	
+	func setNormalStringWithoutAnimation(string: NSAttributedString) {
+		normalString = string
+		label.attributedText = string
+	}
+	
+	
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		

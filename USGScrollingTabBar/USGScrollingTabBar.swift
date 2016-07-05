@@ -342,7 +342,7 @@ extension USGScrollingTabBar: UICollectionViewDataSource {
 		tab.target = self
 		tab.buttonAction = #selector(tabAction(_:))
 		
-		tab.normalString = tabItem.normalString
+		tab.setNormalStringWithoutAnimation(tabItem.normalString)
 		tab.highlightedString = tabItem.highlightedString
 		tab.selectedString = tabItem.selectedString
 		
