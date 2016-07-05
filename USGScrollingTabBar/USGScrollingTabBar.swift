@@ -20,8 +20,6 @@ class USGScrollingTabBar: UIView {
 	var tabSpacing: CGFloat = 0.0
 	var tabInset: CGFloat = 0.0
 	var focusVerticalMargin: CGFloat = 0.0
-	//var focusCornerRadius: CGFloat = 0.0
-	//var focusColor: UIColor?
 	var decelerationRate: CGFloat = UIScrollViewDecelerationRateNormal
 	var enabled: Bool {
 		get {
@@ -85,8 +83,6 @@ class USGScrollingTabBar: UIView {
 		collectionView!.scrollEnabled = true
 		addSubview(collectionView!)
 		
-//		collectionView!.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-//		collectionView!.frame = bounds
 		collectionView!.layer.borderColor = UIColor.redColor().CGColor
 		collectionView!.layer.borderWidth = 1.0
 		collectionView!.translatesAutoresizingMaskIntoConstraints = false
@@ -360,11 +356,6 @@ extension USGScrollingTabBar: UICollectionViewDelegate {
 			collectionView.insertSubview(focusView, atIndex: 0)
 		}
 	}
-	
-//	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-//		selectTabAtIndex(indexPath.row, animated: true)
-//		delegate?.didSelectTabAtIndexPath(self, index: indexPath.row)
-//	}
 
 }
 
