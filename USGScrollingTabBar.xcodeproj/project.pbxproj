@@ -7,19 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		343109541D90492500C6EA46 /* USGScrollingTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343109501D90492500C6EA46 /* USGScrollingTabBar.swift */; };
+		343109551D90492500C6EA46 /* USGScrollingTabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343109511D90492500C6EA46 /* USGScrollingTabCell.swift */; };
+		343109561D90492500C6EA46 /* USGScrollingTabCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343109521D90492500C6EA46 /* USGScrollingTabCell.xib */; };
+		343109571D90492500C6EA46 /* USGScrollingTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343109531D90492500C6EA46 /* USGScrollingTabItem.swift */; };
 		5A9B0AF61D2A79E60072752E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B0AF51D2A79E60072752E /* AppDelegate.swift */; };
 		5A9B0AF81D2A79E60072752E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B0AF71D2A79E60072752E /* ViewController.swift */; };
 		5A9B0AFB1D2A79E60072752E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B0AF91D2A79E60072752E /* Main.storyboard */; };
 		5A9B0AFD1D2A79E60072752E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B0AFC1D2A79E60072752E /* Assets.xcassets */; };
 		5A9B0B001D2A79E60072752E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B0AFE1D2A79E60072752E /* LaunchScreen.storyboard */; };
-		5A9B0B0A1D2A79EF0072752E /* USGScrollingTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B0B071D2A79EF0072752E /* USGScrollingTabBar.swift */; };
-		5A9B0B0B1D2A79EF0072752E /* USGScrollingTabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B0B081D2A79EF0072752E /* USGScrollingTabCell.swift */; };
-		5A9B0B0C1D2A79EF0072752E /* USGScrollingTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B0B091D2A79EF0072752E /* USGScrollingTabItem.swift */; };
-		5A9B0B0E1D2A79F60072752E /* USGScrollingTabCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B0B0D1D2A79F60072752E /* USGScrollingTabCell.xib */; };
 		5A9B0B101D2A7E3C0072752E /* UIView+ViewFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B0B0F1D2A7E3C0072752E /* UIView+ViewFrame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		343109501D90492500C6EA46 /* USGScrollingTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USGScrollingTabBar.swift; sourceTree = "<group>"; };
+		343109511D90492500C6EA46 /* USGScrollingTabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USGScrollingTabCell.swift; sourceTree = "<group>"; };
+		343109521D90492500C6EA46 /* USGScrollingTabCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = USGScrollingTabCell.xib; sourceTree = "<group>"; };
+		343109531D90492500C6EA46 /* USGScrollingTabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USGScrollingTabItem.swift; sourceTree = "<group>"; };
 		5A9B0AF21D2A79E60072752E /* USGScrollingTabBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = USGScrollingTabBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A9B0AF51D2A79E60072752E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A9B0AF71D2A79E60072752E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -27,10 +31,6 @@
 		5A9B0AFC1D2A79E60072752E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A9B0AFF1D2A79E60072752E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5A9B0B011D2A79E60072752E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5A9B0B071D2A79EF0072752E /* USGScrollingTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USGScrollingTabBar.swift; sourceTree = "<group>"; };
-		5A9B0B081D2A79EF0072752E /* USGScrollingTabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USGScrollingTabCell.swift; sourceTree = "<group>"; };
-		5A9B0B091D2A79EF0072752E /* USGScrollingTabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USGScrollingTabItem.swift; sourceTree = "<group>"; };
-		5A9B0B0D1D2A79F60072752E /* USGScrollingTabCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = USGScrollingTabCell.xib; sourceTree = "<group>"; };
 		5A9B0B0F1D2A7E3C0072752E /* UIView+ViewFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+ViewFrame.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -45,10 +45,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3431094F1D90492500C6EA46 /* USGScrollingTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				343109501D90492500C6EA46 /* USGScrollingTabBar.swift */,
+				343109511D90492500C6EA46 /* USGScrollingTabCell.swift */,
+				343109521D90492500C6EA46 /* USGScrollingTabCell.xib */,
+				343109531D90492500C6EA46 /* USGScrollingTabItem.swift */,
+				5A9B0B0F1D2A7E3C0072752E /* UIView+ViewFrame.swift */,
+			);
+			path = USGScrollingTabBar;
+			sourceTree = "<group>";
+		};
 		5A9B0AE91D2A79E60072752E = {
 			isa = PBXGroup;
 			children = (
-				5A9B0AF41D2A79E60072752E /* USGScrollingTabBar */,
+				5A9B0AF41D2A79E60072752E /* ProjectFiles */,
 				5A9B0AF31D2A79E60072752E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,22 +73,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5A9B0AF41D2A79E60072752E /* USGScrollingTabBar */ = {
+		5A9B0AF41D2A79E60072752E /* ProjectFiles */ = {
 			isa = PBXGroup;
 			children = (
-				5A9B0B071D2A79EF0072752E /* USGScrollingTabBar.swift */,
-				5A9B0B081D2A79EF0072752E /* USGScrollingTabCell.swift */,
-				5A9B0B091D2A79EF0072752E /* USGScrollingTabItem.swift */,
-				5A9B0B0D1D2A79F60072752E /* USGScrollingTabCell.xib */,
+				3431094F1D90492500C6EA46 /* USGScrollingTabBar */,
 				5A9B0AF51D2A79E60072752E /* AppDelegate.swift */,
 				5A9B0AF71D2A79E60072752E /* ViewController.swift */,
-				5A9B0B0F1D2A7E3C0072752E /* UIView+ViewFrame.swift */,
 				5A9B0AF91D2A79E60072752E /* Main.storyboard */,
 				5A9B0AFC1D2A79E60072752E /* Assets.xcassets */,
 				5A9B0AFE1D2A79E60072752E /* LaunchScreen.storyboard */,
 				5A9B0B011D2A79E60072752E /* Info.plist */,
 			);
-			path = USGScrollingTabBar;
+			path = ProjectFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,9 +147,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A9B0B001D2A79E60072752E /* LaunchScreen.storyboard in Resources */,
+				343109561D90492500C6EA46 /* USGScrollingTabCell.xib in Resources */,
 				5A9B0AFD1D2A79E60072752E /* Assets.xcassets in Resources */,
 				5A9B0AFB1D2A79E60072752E /* Main.storyboard in Resources */,
-				5A9B0B0E1D2A79F60072752E /* USGScrollingTabCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,12 +160,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A9B0B0A1D2A79EF0072752E /* USGScrollingTabBar.swift in Sources */,
 				5A9B0B101D2A7E3C0072752E /* UIView+ViewFrame.swift in Sources */,
+				343109541D90492500C6EA46 /* USGScrollingTabBar.swift in Sources */,
 				5A9B0AF81D2A79E60072752E /* ViewController.swift in Sources */,
 				5A9B0AF61D2A79E60072752E /* AppDelegate.swift in Sources */,
-				5A9B0B0C1D2A79EF0072752E /* USGScrollingTabItem.swift in Sources */,
-				5A9B0B0B1D2A79EF0072752E /* USGScrollingTabCell.swift in Sources */,
+				343109571D90492500C6EA46 /* USGScrollingTabItem.swift in Sources */,
+				343109551D90492500C6EA46 /* USGScrollingTabCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,7 +283,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = USGScrollingTabBar/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/ProjectFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.usagimaru.USGScrollingTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -287,7 +295,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = USGScrollingTabBar/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/ProjectFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.usagimaru.USGScrollingTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";

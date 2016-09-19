@@ -9,7 +9,7 @@
 import UIKit
 
 class USGScrollingTabItem: NSObject {
-
+	
 	var normalString: NSAttributedString = NSAttributedString(string: "")
 	var highlightedString: NSAttributedString?
 	var selectedString: NSAttributedString?

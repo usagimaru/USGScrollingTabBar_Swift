@@ -14,34 +14,35 @@ class ViewController: UIViewController {
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var focusView: UIView!
 	
-	var tabItems = Array<USGScrollingTabItem>()
+	var tabItems = [USGScrollingTabItem]()
 	
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		scrollingTabBar.delegate = self
-		scrollingTabBar.tabSpacing = 8
-		scrollingTabBar.tabInset = 8
+		scrollingTabBar.tabBarInset = 8
+		scrollingTabBar.tabInset = 12
+		scrollingTabBar.tabSpacing = 1
 		scrollingTabBar.focusVerticalMargin = 4
-		scrollingTabBar.focusView = focusView
+		scrollingTabBar.setFocusView(focusView)
 		scrollingTabBar.decelerationRate = UIScrollViewDecelerationRateFast
 		
 		let strings = [
-			"渋谷",
-			"表参道",
-			"青山一丁目",
-			"永田町",
-			"半蔵門",
-			"九段下",
-			"神保町",
-			"大手町",
-			"三越前",
-			"水天宮前",
-			"清澄白河",
-			"住吉",
-			"錦糸町",
-			"押上〈スカイツリー前〉",
+			"渋谷 Shibuya",
+			"表参道 Omotesando",
+			"青山一丁目 Aoyama-Itchome",
+			"永田町 Nagatacho",
+			"半蔵門 Hanzomon",
+			"九段下 Kudanshita",
+			"神保町 Jimbocho",
+			"大手町 Otemachi",
+			"三越前 Mitsukoshi-mae",
+			"水天宮前 Suitengu-mae",
+			"清澄白河 Kiyosumi-Shirakawa",
+			"住吉 Sumiyoshi",
+			"錦糸町 Kinshicho",
+			"押上〈スカイツリー前〉 Oshiage (Skytree)",
 			]
 		
 		let font = UIFont.systemFontOfSize(13)
@@ -97,9 +98,17 @@ class ViewController: UIViewController {
 			label.numberOfLines = 0
 			label.sizeToFit()
 			label.x = scrollView.width * CGFloat(idx)
-			label.y = 100
+			label.y = 8
 			label.width = scrollView.width
 			scrollView.addSubview(label)
+			
+			let imageView = UIImageView(image: UIImage(named: "\(idx)"))
+			imageView.contentMode = .ScaleAspectFit
+			imageView.x = scrollView.width * CGFloat(idx)
+			imageView.y = 30
+			imageView.height = 500
+			imageView.width = scrollView.width
+			scrollView.addSubview(imageView)
 		}
 		
 		scrollView.contentSize = CGSizeMake(view.width * CGFloat(tabItems.count), scrollView.contentSize.height)

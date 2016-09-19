@@ -32,7 +32,12 @@ class USGScrollingTabCell: UICollectionViewCell {
 		}
 	}
 	
-	@IBOutlet weak var label: UILabel!
+	@IBOutlet weak var label: UILabel! {
+		didSet {
+			label.layer.borderColor = UIColor.blueColor().CGColor
+			label.layer.borderWidth = 1.0
+		}
+	}
 	@IBOutlet weak var leftConstraint: NSLayoutConstraint!
 	@IBOutlet weak var rightConstraint: NSLayoutConstraint!
 	@IBOutlet weak var button: UIButton!
@@ -43,9 +48,9 @@ class USGScrollingTabCell: UICollectionViewCell {
 	override class func initialize() {
 		super.initialize()
 		
-		let nib = self.nib()
-		let cell = nib.instantiateWithOwner(nil, options: nil).first as! USGScrollingTabCell
-		padding = UIEdgeInsetsMake(0, cell.leftConstraint.constant, 0, cell.rightConstraint.constant)
+		if let cell = self.nib().instantiateWithOwner(nil, options: nil).first as? USGScrollingTabCell {
+			padding = UIEdgeInsetsMake(0, cell.leftConstraint.constant, 0, cell.rightConstraint.constant)
+		}
 	}
 	
 	
@@ -56,13 +61,19 @@ class USGScrollingTabCell: UICollectionViewCell {
 	class func tabWidth(string: NSAttributedString, tabInset: CGFloat) -> CGFloat {
 		// 文字列の必要な幅を計算
 		let bounds = string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max),
-		                                         options: [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine],
+		                                         options: [.UsesLineFragmentOrigin],
 		                                         context: nil)
 		
 		// 余白をたす。繰上げしないと収まりきらない
 		let w = max(ceil(bounds.size.width + padding.left + padding.right) + tabInset * 2.0, 1.0)
 		
 		return w
+	}
+	
+	
+	func setNormalStringWithoutAnimation(string: NSAttributedString) {
+		normalString = string
+		label.attributedText = string
 	}
 	
 	
@@ -77,12 +88,15 @@ class USGScrollingTabCell: UICollectionViewCell {
 			return
 		}
 		
+		// TODO: fix animation
+		setAttributedText(false, indexPath: indexPath)
+	}
+	
+	private func setAttributedText(animated: Bool, indexPath: NSIndexPath) {
 		var str: NSAttributedString? = nil
-		var duration: NSTimeInterval = 0.2
 		
 		if highlighted {
 			str = highlightedString
-			duration = 0.0
 		}
 		else if selected == true && index == indexPath.row {
 			str = selectedString
@@ -92,10 +106,12 @@ class USGScrollingTabCell: UICollectionViewCell {
 		}
 		
 		if let str = str {
+			label.attributedText = str
+			let duration: NSTimeInterval = highlighted == true && animated == true ? 0.2 : 0.0
 			UIView.transitionWithView(label,
 			                          duration: duration,
 			                          options: [.TransitionCrossDissolve, .BeginFromCurrentState],
-			                          animations: { 
+			                          animations: {
 										self.label.attributedText = str },
 			                          completion: nil)
 		}
