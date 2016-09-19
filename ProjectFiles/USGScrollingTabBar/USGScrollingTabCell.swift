@@ -32,12 +32,7 @@ class USGScrollingTabCell: UICollectionViewCell {
 		}
 	}
 	
-	@IBOutlet weak var label: UILabel! {
-		didSet {
-			label.layer.borderColor = UIColor.blueColor().CGColor
-			label.layer.borderWidth = 1.0
-		}
-	}
+	@IBOutlet weak var label: UILabel!
 	@IBOutlet weak var leftConstraint: NSLayoutConstraint!
 	@IBOutlet weak var rightConstraint: NSLayoutConstraint!
 	@IBOutlet weak var button: UIButton!

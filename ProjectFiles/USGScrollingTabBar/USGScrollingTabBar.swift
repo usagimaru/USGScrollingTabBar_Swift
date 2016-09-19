@@ -365,8 +365,6 @@ extension USGScrollingTabBar: UICollectionViewDataSource {
 		tab.setNormalStringWithoutAnimation(tabItem.normalString)
 		tab.highlightedString = tabItem.highlightedString
 		tab.selectedString = tabItem.selectedString
-		tab.layer.borderColor = UIColor.redColor().CGColor
-		tab.layer.borderWidth = 0.5
 		
 		return tab
 	}
