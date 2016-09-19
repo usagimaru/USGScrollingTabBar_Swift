@@ -94,7 +94,7 @@ func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerat
 You can responds to tab selection event. This method is defined by `USGScrollingTabBarDelegate`.
 
 ```swift
-func tabBarDidSelectTabAtIndexPath(tabBar: USGScrollingTabBar, index: Int) {
+func tabBarDidSelectTabAtIndex(tabBar: USGScrollingTabBar, index: Int) {
 	pager.setContentOffset(CGPointMake(pager.frame.size.width * CGFloat(index), pager.contentOffset.y), animated: true)
 }
 ```

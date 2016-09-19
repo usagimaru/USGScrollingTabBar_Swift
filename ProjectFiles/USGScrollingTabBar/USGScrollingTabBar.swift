@@ -9,7 +9,7 @@
 import UIKit
 
 protocol USGScrollingTabBarDelegate: class {
-	func tabBarDidSelectTabAtIndexPath(tabBar: USGScrollingTabBar, index: Int)
+	func tabBarDidSelectTabAtIndex(tabBar: USGScrollingTabBar, index: Int)
 }
 
 class USGScrollingTabBar: UIView {
@@ -174,7 +174,7 @@ class USGScrollingTabBar: UIView {
 	
 	func tabAction(sender: USGScrollingTabCell) {
 		_selectTabAtIndex(sender.index, animated: true)
-		delegate?.tabBarDidSelectTabAtIndexPath(self, index: sender.index)
+		delegate?.tabBarDidSelectTabAtIndex(self, index: sender.index)
 	}
 	
 	

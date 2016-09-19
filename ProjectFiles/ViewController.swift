@@ -139,7 +139,7 @@ class ViewController: UIViewController {
 
 extension ViewController: USGScrollingTabBarDelegate {
 	
-	func tabBarDidSelectTabAtIndexPath(tabBar: USGScrollingTabBar, index: Int) {
+	func tabBarDidSelectTabAtIndex(tabBar: USGScrollingTabBar, index: Int) {
 		scrollView.setContentOffset(CGPointMake(scrollView.width * CGFloat(index), scrollView.contentOffset.y), animated: true)
 	}
 }
