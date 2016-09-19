@@ -12,11 +12,14 @@ protocol USGScrollingTabBarDelegate: class {
 	func didSelectTabAtIndexPath(tabBar: USGScrollingTabBar, index: Int)
 }
 
+let USGScrollingTabBarAutomaticBarInsets: CGFloat = -1
+
 class USGScrollingTabBar: UIView {
 	
 	weak var delegate: USGScrollingTabBarDelegate?
 	var pageWidth: CGFloat = 0.0
-	var tabBarInset: CGFloat = 0.0
+	var tabBarInsetLeft: CGFloat = USGScrollingTabBarAutomaticBarInsets
+	var tabBarInsetRight: CGFloat = USGScrollingTabBarAutomaticBarInsets
 	var tabSpacing: CGFloat = 0.0
 	var tabInset: CGFloat = 0.0
 	var focusVerticalMargin: CGFloat = 0.0
@@ -115,7 +118,7 @@ class USGScrollingTabBar: UIView {
 		var tabIntervalArray = Array<CGFloat>()
 		
 		let viewWidth_half = CGFloat(collectionView.width / 2.0)
-		var totalTabWidth = tabBarInset
+		var totalTabWidth = barInsetLeft() + barInsetRight()
 		var tabIntervalAdjusted = false
 		
 		for (idx, prevTabItem) in tabItems.enumerate() {
@@ -174,6 +177,34 @@ class USGScrollingTabBar: UIView {
 		return y
 	}
 	
+	private func barInsetLeft() -> CGFloat {
+		var inset: CGFloat = 0.0
+		if tabBarInsetLeft == USGScrollingTabBarAutomaticBarInsets && tabItems.count > 0 {
+			let item = tabItems.first!
+			let tabWidth = USGScrollingTabCell.tabWidth(item.normalString, tabInset: tabInset)
+			inset = (collectionView!.width - tabWidth) / 2.0
+		}
+		else {
+			inset = tabBarInsetLeft
+		}
+		
+		return inset
+	}
+	
+	private func barInsetRight() -> CGFloat {
+		var inset: CGFloat = 0.0
+		if tabBarInsetRight == USGScrollingTabBarAutomaticBarInsets && tabItems.count > 0 {
+			let item = tabItems.last!
+			let tabWidth = USGScrollingTabCell.tabWidth(item.normalString, tabInset: tabInset)
+			inset = (collectionView!.width - tabWidth) / 2.0
+		}
+		else {
+			inset = tabBarInsetRight
+		}
+		
+		return inset
+	}
+	
 	internal func tabAction(sender: USGScrollingTabCell) {
 		
 		selectTabAtIndex(sender.index, animated: true)
@@ -206,7 +237,7 @@ class USGScrollingTabBar: UIView {
 			focusView.height = height - focusVerticalMargin * 2.0
 			
 			if items.count > 0 {
-				focusView.x = tabBarInset
+				focusView.x = barInsetLeft()
 				focusView.width = tabWidths[indexOfSelectedTab]
 				focusView.hidden = false
 			}
@@ -231,6 +262,7 @@ class USGScrollingTabBar: UIView {
 		
 		let count = tabItems.count
 		let pageWidth = self.pageWidth
+		
 		
 		// ページレート
 		let pageRate = pageOffset / pageWidth
@@ -258,7 +290,7 @@ class USGScrollingTabBar: UIView {
 		let currentPageOffset = (pageIndex > 0) ? pageOffset - pageWidth * CGFloat(pageIndex) : pageOffset
 		
 		// オフセット×レート+以前のタブ幅・タブページ幅の合計値
-		var focusOffset = currentPageOffset * (tabWidth / pageWidth) + beforeFocusOffset + tabBarInset
+		var focusOffset = currentPageOffset * (tabWidth / pageWidth) + beforeFocusOffset + barInsetLeft()
 		var tabBarOffset = currentPageOffset * (tabInterval / pageWidth) + beforeTabBarOffset
 		
 		// 最適なフォーカス幅を計算
@@ -269,7 +301,7 @@ class USGScrollingTabBar: UIView {
 		
 		// 範囲調整
 		tabBarOffset = min(max(tabBarOffset, 0), collectionView.contentSize.width - collectionView.width)
-		focusOffset = min(max(focusOffset, tabBarInset), collectionView.contentSize.width - focusWidth - tabBarInset)
+		focusOffset = min(max(focusOffset, barInsetLeft()), collectionView.contentSize.width - focusWidth - barInsetLeft())
 		
 		
 		// オフセットとフォーカスのフレームを設定
@@ -378,6 +410,6 @@ extension USGScrollingTabBar: UICollectionViewDelegateFlowLayout {
 	}
 	
 	func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-		return UIEdgeInsetsMake(0, tabBarInset, 0, tabBarInset)
+		return UIEdgeInsetsMake(0, barInsetLeft(), 0, barInsetRight())
 	}
 }

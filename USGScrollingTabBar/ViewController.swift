@@ -21,7 +21,6 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 		
 		scrollingTabBar.delegate = self
-		scrollingTabBar.tabBarInset = 12
 		scrollingTabBar.tabSpacing = 8
 		scrollingTabBar.tabInset = 8
 		scrollingTabBar.focusVerticalMargin = 4
