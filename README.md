@@ -1,91 +1,104 @@
-# USGScrollingTabBar_Swift
+# USGScrollingTabBar
 
 ![animation](./sample.gif) ![screenshot](./screenshot.jpg)
 
-USGScrollingTabBar は iOS 向けのスクロールタブバー部品の実装です。[Objective-C 版はこちらです。](https://github.com/usagimaru/USGScrollingTabBar)
+**USGScrollingTabBar** is a scrollable tab bar component for iOS. This project is written in Swift. [Old version (Objective-C) is here](https://github.com/usagimaru/USGScrollingTabBar).
 
-他のスクロールビューと連動したタブのスクロールが可能です。その際、選択状態のタブは中心に留まるように調整されます。また、タブバー自体は独立してスクロールすることも可能です。タブ幅は文字列に合わせて可変的に調整されます。
+It is scrolling by synchronized with another UIScrollView. Then the selected tab will be adjusted at the center position. The tab bar can also be scrolled independently. Tab widths are adjusted dynamically to the content of cell.
 
-次の項目がカスタマイズ可能です：
+The following items can be customizable:
 
-- タブバーの背景色
-- タブバーの左右余白
-- タブ間隔
-- タブの内側余白
-- フォーカスのビュー
-- フォーカスの上下余白
-- 減速度
-- 通常、ハイライト、選択それぞれに属性付き文字列を設定可能
+- Tab bar background color
+- Left and right margins of the tab bar
+- Tab spacing
+- Inner margins of tab
+- The Focus view (Auto Sinzing Layout)
+- Can set NSAttributedString to each tab states, normal, highlighted, and selected
 
-# 使い方
 
-Interface Builder でカスタムビューを配置するか、プログラムコードで直接初期化してください。
+# Usage
+
+Install custom UIView on Interface Builder or initialize programmatically.
 
 ```swift
 var scrollingTabBar: USGScrollingTabBar(frame: CGRectMake(0,0,100,40)
 view.addSubView:scrollingTabBar
 ```
 
-## タブ項目を用意する
+## Create Tab Items
 
-`USGScrollingTabItem` は NSAttributedString で表現されるタイトル、通常状態、ハイライト状態、選択状態の3種類を持ちます。
+To use, you need `USGScrollingTabItem` items. This class has properties NSAttributedString titles. So you should set NSAttributedString strings each 3 states, normal, highlighted and selected.
 
 ```swift
-let font = UIFont.systemFontOfSize(13)
-let color = UIColor.whiteColor()
-let paragraph = NSMutableParagraphStyle()
+let font = UIFont.systemFontOfSize(13) // Font
+let color = UIColor.whiteColor() // Color
+let paragraph = NSMutableParagraphStyle() // Paragraph Style
 
+// Initialize NSAttributedString
 let string = USGScrollingTabItem.normalAttributedString(str,
                                                         font: font,
                                                         color: color,
                                                         paragraphStyle: paragraph)
 
+// Initialize tab item
 let tabItem = USGScrollingTabItem()
+// Set the string
 tabItem.normalString = string
 ```
 
-用意したタブ項目で `USGScrollingTabBar` をリロードします。
+Reload `USGScrollingTabBar` with tab items.
 
 ```swift
-var tabItems = Array<USGScrollingTabItem>()
+var tabItems = [USGScrollingTabItem]() // Tab Item Array
+...
 
+// Set the page width. Usually it is same as another UIScrollVeiw's width.
 scrollingTabBar.pageWidth = view.width
+// Reload
 scrollingTabBar.reloadTabs(tabItems)
 ```
 
-## スクロールビューの動きとタブバーを連動させる
+## How to Synchronize Pager and Tab Bar ?
 
-スクロールビューとの連動には UIScrollViewDelegate を使用します。
+Use `UIScrollViewDelegate` methods like here:
 
 ```swift
 func scrollViewDidScroll(scrollView: UIScrollView) {
-	scrollingTabBar.enabled = !scrollView.tracking;
-	
-	if (scrollView.tracking || scrollView.decelerating) {
-		scrollingTabBar.scrollToOffset(scrollView.contentOffset.x)
+	if scrollView == pager {
+		scrollingTabBar.enabled = !scrollView.tracking
+		
+		// Synchronize scroll offset during tracking
+		if (scrollView.tracking || scrollView.decelerating) {
+			scrollingTabBar.scrollToOffset(scrollView.contentOffset.x)
+		}
 	}
 }
 
 func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-	scrollingTabBar.stopScrollDeceleration()
-	scrollingTabBar.enabled = false
+	if scrollView == pager {
+		// Stop deceleration effect
+		scrollingTabBar.stopScrollDeceleration()
+		scrollingTabBar.enabled = false
+	}
 }
 
 func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-	scrollingTabBar.enabled = true
+	if scrollView == pager {
+		scrollingTabBar.enabled = true
+	}
 }
 ```
 
 ## USGScrollingTabBarDelegate
 
-タブを選択したときのイベントは `USGScrollingTabBarDelegate` で定義されるメソッドで受け取ることができます。
+You can responds to tab selection event. This method is defined by `USGScrollingTabBarDelegate`.
 
 ```swift
-func didSelectTabAtIndexPath(tabBar: USGScrollingTabBar, index: Int) {
-    
+func tabBarDidSelectTabAtIndexPath(tabBar: USGScrollingTabBar, index: Int) {
+	pager.setContentOffset(CGPointMake(pager.frame.size.width * CGFloat(index), pager.contentOffset.y), animated: true)
 }
 ```
 
 # License
 
-This project is under the MIT license. See LICENSE for details.
+This project is under the MIT license. See [LICENSE](LICENSE) for details.
