@@ -14,13 +14,24 @@ protocol USGScrollingTabBarDelegate: class {
 
 class USGScrollingTabBar: UIView {
 	
+	private(set) var tabCount: Int = 0
+	private(set) var indexOfSelectedTab: Int = 0
+	
+	private var collectionView: UICollectionView?
+	private var focusView: UIView?
+	
+	private var tabItems = [USGScrollingTabItem]()
+	private var tabWidths = [CGFloat]()
+	private var tabIntervals = [CGFloat]()
+	private var contentMargin: CGFloat = 0 // リロード時に左右のマージンを計算して入れておく
+	
+	
 	weak var delegate: USGScrollingTabBarDelegate?
 	var pageWidth: CGFloat = 0.0
 	var tabBarInset: CGFloat = 0.0
 	var tabSpacing: CGFloat = 0.0
 	var tabInset: CGFloat = 0.0
 	var focusVerticalMargin: CGFloat = 0.0
-	var decelerationRate: CGFloat = UIScrollViewDecelerationRateNormal
 	var enabled: Bool {
 		get {
 			if let collectionView = collectionView {
@@ -34,15 +45,6 @@ class USGScrollingTabBar: UIView {
 			collectionView?.scrollEnabled = newValue
 		}
 	}
-	private(set) var tabCount: Int = 0
-	private(set) var indexOfSelectedTab: Int = 0
-	
-	private var collectionView: UICollectionView?
-	
-	private var tabItems = [USGScrollingTabItem]()
-	private var tabWidths = [CGFloat]()
-	private var tabIntervals = [CGFloat]()
-	private var contentMargin: CGFloat = 0 // リロード時に左右のマージンを計算して入れておく
 	
 	
 	override init(frame: CGRect) {
@@ -102,7 +104,7 @@ class USGScrollingTabBar: UIView {
 	
 	// MARK: -
 	
-	private func tabInfo(tabItems: [USGScrollingTabItem]) -> (tabWidths: [CGFloat], tabIntervals: [CGFloat]) {
+	private func calculateTabInfo(tabItems: [USGScrollingTabItem]) -> (tabWidths: [CGFloat], tabIntervals: [CGFloat]) {
 		guard let collectionView = collectionView else {
 			return (tabWidths: [CGFloat](), tabIntervals: [CGFloat]())
 		}
@@ -178,8 +180,6 @@ class USGScrollingTabBar: UIView {
 	
 	// MARK: -
 	
-	private var focusView: UIView?
-	
 	/// Should use Auto Sizing
 	func setFocusView(newFocusView: UIView?) {
 		if let focusView = self.focusView {
@@ -205,9 +205,9 @@ class USGScrollingTabBar: UIView {
 		
 		
 		// タブ幅・タブ間隔を計算
-		let info: (tabWidths: [CGFloat], tabIntervals: [CGFloat]) = tabInfo(items)
-		tabWidths = info.tabWidths
-		tabIntervals = info.tabIntervals
+		let tabInfo: (tabWidths: [CGFloat], tabIntervals: [CGFloat]) = calculateTabInfo(items)
+		tabWidths = tabInfo.tabWidths
+		tabIntervals = tabInfo.tabIntervals
 		
 		// マージンを計算：コンテンツがビュー幅未満なら、中央配置になるようマージンを算出、スクローラブルなら tabBarInset を設定
 		// (ビュー幅 - (タブ幅合計値 + タブ間隔合計値 - 指定マージン)) / 2
@@ -235,9 +235,12 @@ class USGScrollingTabBar: UIView {
 		                          animations: {
 									collectionView.reloadData()
 			},
-		                          completion: {(finished) in
-									collectionView.layoutIfNeeded()
+		                          completion: {_ in
+									
 		})
+		
+		collectionView.layoutIfNeeded()
+		_selectTabAtIndex(indexOfSelectedTab, animated: false)
 	}
 	
 	func scrollToOffset(pageOffset: CGFloat) {

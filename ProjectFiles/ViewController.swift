@@ -26,8 +26,42 @@ class ViewController: UIViewController {
 		scrollingTabBar.tabSpacing = 1
 		scrollingTabBar.focusVerticalMargin = 4
 		scrollingTabBar.setFocusView(focusView)
-		scrollingTabBar.decelerationRate = UIScrollViewDecelerationRateFast
 		
+		buildSampleItems()
+	}
+
+	override func didReceiveMemoryWarning() {
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
+	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		view.layoutIfNeeded()
+		
+		buildSamplePages()
+		
+		focusView.layer.cornerRadius = (scrollingTabBar.height - scrollingTabBar.focusVerticalMargin * 2.0) / 2.0
+		scrollView.contentSize = CGSizeMake(view.width * CGFloat(tabItems.count), scrollView.contentSize.height)
+		scrollingTabBar.width = view.width
+		scrollingTabBar.pageWidth = scrollView.width
+		scrollingTabBar.reloadTabs(tabItems)
+	}
+	
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
+	}
+	
+	override func viewWillDisappear(animated: Bool) {
+		super.viewWillDisappear(animated)
+	}
+	
+	override func viewDidDisappear(animated: Bool) {
+		super.viewDidDisappear(animated)
+	}
+	
+	private func buildSampleItems() {
 		let strings = [
 			"渋谷 Shibuya",
 			"表参道 Omotesando",
@@ -76,19 +110,8 @@ class ViewController: UIViewController {
 			tabItems.append(tabItem)
 		}
 	}
-
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
 	
-	override func viewWillAppear(animated: Bool) {
-		super.viewWillAppear(animated)
-	}
-	
-	override func viewDidAppear(animated: Bool) {
-		super.viewDidAppear(animated)
-		
+	private func buildSamplePages() {
 		for (idx, _) in tabItems.enumerate() {
 			let label = UILabel(frame: CGRectZero)
 			label.textAlignment = .Center
@@ -110,22 +133,6 @@ class ViewController: UIViewController {
 			imageView.width = scrollView.width
 			scrollView.addSubview(imageView)
 		}
-		
-		scrollView.contentSize = CGSizeMake(view.width * CGFloat(tabItems.count), scrollView.contentSize.height)
-		
-		focusView.layer.cornerRadius = (scrollingTabBar.height - scrollingTabBar.focusVerticalMargin * 2.0) / 2.0
-		
-		scrollingTabBar.width = view.width
-		scrollingTabBar.pageWidth = scrollView.width;
-		scrollingTabBar.reloadTabs(tabItems)
-	}
-	
-	override func viewWillDisappear(animated: Bool) {
-		super.viewWillDisappear(animated)
-	}
-	
-	override func viewDidDisappear(animated: Bool) {
-		super.viewDidDisappear(animated)
 	}
 
 }
