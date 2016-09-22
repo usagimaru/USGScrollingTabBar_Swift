@@ -354,11 +354,11 @@ extension USGScrollingTabBar: UICollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let tabItem = tabItems[(indexPath as NSIndexPath).row]
+		let tabItem = tabItems[(indexPath as IndexPath).row]
 		let tab = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! USGScrollingTabCell
 		
 		tab.collectionView = collectionView
-		tab.index = (indexPath as NSIndexPath).row
+		tab.index = (indexPath as IndexPath).row
 		tab.target = self
 		tab.buttonAction = #selector(tabAction(_:))
 		
@@ -384,11 +384,6 @@ extension USGScrollingTabBar: UICollectionViewDelegate {
 			collectionView.insertSubview(focusView, at: 0)
 		}
 	}
-	
-//	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-//		selectTabAtIndex(indexPath.row, animated: true)
-//		delegate?.didSelectTabAtIndexPath(self, index: indexPath.row)
-//	}
 	
 }
 

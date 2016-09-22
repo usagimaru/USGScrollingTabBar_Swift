@@ -93,10 +93,10 @@ class USGScrollingTabCell: UICollectionViewCell {
 		if isHighlighted {
 			str = highlightedString
 		}
-		else if isSelected == true && index == (indexPath as NSIndexPath).row {
+		else if isSelected == true && index == (indexPath as IndexPath).row {
 			str = selectedString
 		}
-		else if (indexPath as NSIndexPath).row != index {
+		else if (indexPath as IndexPath).row != index {
 			str = normalString
 		}
 		
