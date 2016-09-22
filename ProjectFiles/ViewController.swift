@@ -97,15 +97,16 @@ class ViewController: UIViewController {
 		paragraph.lineBreakMode = .byTruncatingTail
 		
 		for str in strings {
-			let string = USGScrollingTabItem.normalAttributedString(str,
-			                                                        font: font,
-			                                                        color: color,
-			                                                        paragraphStyle: paragraph)
+			let normalString = NSAttributedString.attributedString(str,
+			                                                       font: font,
+			                                                       color: color,
+			                                                       paragraphStyle: paragraph,
+			                                                       otherAttributes: [(kCTLanguageAttributeName as String) : "ja"])
 			
 			let tabItem = USGScrollingTabItem()
-			tabItem.normalString = string
-			tabItem.highlightedString = USGScrollingTabItem.replaceAttributesInString(string, attributes: highlightedAttributes)
-			tabItem.selectedString = USGScrollingTabItem.replaceAttributesInString(string, attributes: selectedAttributes)
+			tabItem.normalString = normalString
+			tabItem.highlightedString = normalString.addAttributes(attributes: highlightedAttributes)
+			tabItem.selectedString = normalString.addAttributes(attributes: selectedAttributes)
 			
 			tabItems.append(tabItem)
 		}

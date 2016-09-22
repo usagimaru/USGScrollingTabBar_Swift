@@ -11,6 +11,7 @@
 		343109551D90492500C6EA46 /* USGScrollingTabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343109511D90492500C6EA46 /* USGScrollingTabCell.swift */; };
 		343109561D90492500C6EA46 /* USGScrollingTabCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343109521D90492500C6EA46 /* USGScrollingTabCell.xib */; };
 		343109571D90492500C6EA46 /* USGScrollingTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343109531D90492500C6EA46 /* USGScrollingTabItem.swift */; };
+		343109591D93A8E500C6EA46 /* NSAttributedStringUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343109581D93A8E500C6EA46 /* NSAttributedStringUtility.swift */; };
 		5A9B0AF61D2A79E60072752E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B0AF51D2A79E60072752E /* AppDelegate.swift */; };
 		5A9B0AF81D2A79E60072752E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B0AF71D2A79E60072752E /* ViewController.swift */; };
 		5A9B0AFB1D2A79E60072752E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B0AF91D2A79E60072752E /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 		343109511D90492500C6EA46 /* USGScrollingTabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USGScrollingTabCell.swift; sourceTree = "<group>"; };
 		343109521D90492500C6EA46 /* USGScrollingTabCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = USGScrollingTabCell.xib; sourceTree = "<group>"; };
 		343109531D90492500C6EA46 /* USGScrollingTabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USGScrollingTabItem.swift; sourceTree = "<group>"; };
+		343109581D93A8E500C6EA46 /* NSAttributedStringUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSAttributedStringUtility.swift; path = ProjectFiles/NSAttributedStringUtility.swift; sourceTree = SOURCE_ROOT; };
 		5A9B0AF21D2A79E60072752E /* USGScrollingTabBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = USGScrollingTabBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A9B0AF51D2A79E60072752E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A9B0AF71D2A79E60072752E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				3431094F1D90492500C6EA46 /* USGScrollingTabBar */,
 				5A9B0AF51D2A79E60072752E /* AppDelegate.swift */,
 				5A9B0AF71D2A79E60072752E /* ViewController.swift */,
+				343109581D93A8E500C6EA46 /* NSAttributedStringUtility.swift */,
 				5A9B0AF91D2A79E60072752E /* Main.storyboard */,
 				5A9B0AFC1D2A79E60072752E /* Assets.xcassets */,
 				5A9B0AFE1D2A79E60072752E /* LaunchScreen.storyboard */,
@@ -165,6 +168,7 @@
 				5A9B0AF81D2A79E60072752E /* ViewController.swift in Sources */,
 				5A9B0AF61D2A79E60072752E /* AppDelegate.swift in Sources */,
 				343109571D90492500C6EA46 /* USGScrollingTabItem.swift in Sources */,
+				343109591D93A8E500C6EA46 /* NSAttributedStringUtility.swift in Sources */,
 				343109551D90492500C6EA46 /* USGScrollingTabCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
