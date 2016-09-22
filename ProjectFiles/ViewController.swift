@@ -35,7 +35,7 @@ class ViewController: UIViewController {
 		// Dispose of any resources that can be recreated.
 	}
 	
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
 		view.layoutIfNeeded()
@@ -43,25 +43,25 @@ class ViewController: UIViewController {
 		buildSamplePages()
 		
 		focusView.layer.cornerRadius = (scrollingTabBar.height - scrollingTabBar.focusVerticalMargin * 2.0) / 2.0
-		scrollView.contentSize = CGSizeMake(view.width * CGFloat(tabItems.count), scrollView.contentSize.height)
+		scrollView.contentSize = CGSize(width: view.width * CGFloat(tabItems.count), height: scrollView.contentSize.height)
 		scrollingTabBar.width = view.width
 		scrollingTabBar.pageWidth = scrollView.width
 		scrollingTabBar.reloadTabs(tabItems)
 	}
 	
-	override func viewDidAppear(animated: Bool) {
+	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 	}
 	
-	override func viewWillDisappear(animated: Bool) {
+	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 	}
 	
-	override func viewDidDisappear(animated: Bool) {
+	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 	}
 	
-	private func buildSampleItems() {
+	fileprivate func buildSampleItems() {
 		let strings = [
 			"渋谷 Shibuya",
 			"表参道 Omotesando",
@@ -79,22 +79,22 @@ class ViewController: UIViewController {
 			"押上〈スカイツリー前〉 Oshiage (Skytree)",
 			]
 		
-		let font = UIFont.systemFontOfSize(13)
-		let color = UIColor.whiteColor()
+		let font = UIFont.systemFont(ofSize: 13)
+		let color = UIColor.white
 		let highlightedColor = UIColor(colorLiteralRed: 0.8654, green: 0.5059, blue: 0.8728, alpha: 1.0)
-		let selectedColor = UIColor.blackColor()
+		let selectedColor = UIColor.black
 		
 		let highlightedAttributes = [
 			NSForegroundColorAttributeName : highlightedColor
 		]
 		let selectedAttributes = [
-			NSFontAttributeName : UIFont.boldSystemFontOfSize(font.pointSize),
+			NSFontAttributeName : UIFont.boldSystemFont(ofSize: font.pointSize),
 			NSForegroundColorAttributeName : selectedColor
 		]
 		
 		let paragraph = NSMutableParagraphStyle()
-		paragraph.alignment = .Center
-		paragraph.lineBreakMode = .ByTruncatingTail
+		paragraph.alignment = .center
+		paragraph.lineBreakMode = .byTruncatingTail
 		
 		for str in strings {
 			let string = USGScrollingTabItem.normalAttributedString(str,
@@ -111,13 +111,13 @@ class ViewController: UIViewController {
 		}
 	}
 	
-	private func buildSamplePages() {
-		for (idx, _) in tabItems.enumerate() {
-			let label = UILabel(frame: CGRectZero)
-			label.textAlignment = .Center
-			label.backgroundColor = UIColor.clearColor()
+	fileprivate func buildSamplePages() {
+		for (idx, _) in tabItems.enumerated() {
+			let label = UILabel(frame: CGRect.zero)
+			label.textAlignment = .center
+			label.backgroundColor = UIColor.clear
 			label.text = "\(idx)"
-			label.font = UIFont.boldSystemFontOfSize(20)
+			label.font = UIFont.boldSystemFont(ofSize: 20)
 			label.numberOfLines = 0
 			label.sizeToFit()
 			label.x = scrollView.width * CGFloat(idx)
@@ -126,7 +126,7 @@ class ViewController: UIViewController {
 			scrollView.addSubview(label)
 			
 			let imageView = UIImageView(image: UIImage(named: "\(idx)"))
-			imageView.contentMode = .ScaleAspectFit
+			imageView.contentMode = .scaleAspectFit
 			imageView.x = scrollView.width * CGFloat(idx)
 			imageView.y = 30
 			imageView.height = 500
@@ -139,27 +139,27 @@ class ViewController: UIViewController {
 
 extension ViewController: USGScrollingTabBarDelegate {
 	
-	func tabBarDidSelectTabAtIndex(tabBar: USGScrollingTabBar, index: Int) {
-		scrollView.setContentOffset(CGPointMake(scrollView.width * CGFloat(index), scrollView.contentOffset.y), animated: true)
+	func tabBarDidSelectTabAtIndex(_ tabBar: USGScrollingTabBar, index: Int) {
+		scrollView.setContentOffset(CGPoint(x: scrollView.width * CGFloat(index), y: scrollView.contentOffset.y), animated: true)
 	}
 }
 
 extension ViewController: UIScrollViewDelegate {
 	
-	func scrollViewDidScroll(scrollView: UIScrollView) {
-		scrollingTabBar.enabled = !scrollView.tracking;
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		scrollingTabBar.enabled = !scrollView.isTracking;
 		
-		if (scrollView.tracking || scrollView.decelerating) {
+		if (scrollView.isTracking || scrollView.isDecelerating) {
 			scrollingTabBar.scrollToOffset(scrollView.contentOffset.x)
 		}
 	}
 	
-	func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
 		scrollingTabBar.stopScrollDeceleration()
 		scrollingTabBar.enabled = false
 	}
 	
-	func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 		scrollingTabBar.enabled = true
 	}
 }

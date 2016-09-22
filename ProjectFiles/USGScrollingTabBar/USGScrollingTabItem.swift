@@ -14,7 +14,7 @@ class USGScrollingTabItem: NSObject {
 	var highlightedString: NSAttributedString?
 	var selectedString: NSAttributedString?
 	
-	class func normalAttributedString(string: String, font: UIFont, color: UIColor, paragraphStyle: NSParagraphStyle) -> NSAttributedString {
+	class func normalAttributedString(_ string: String, font: UIFont, color: UIColor, paragraphStyle: NSParagraphStyle) -> NSAttributedString {
 		let att = [
 			NSFontAttributeName : font,
 			NSForegroundColorAttributeName : color,
@@ -25,7 +25,7 @@ class USGScrollingTabItem: NSObject {
 		return astr
 	}
 	
-	class func replaceAttributesInString(string: NSAttributedString, attributes: [String : AnyObject]) -> NSAttributedString {
+	class func replaceAttributesInString(_ string: NSAttributedString, attributes: [String : AnyObject]) -> NSAttributedString {
 		let astr = string.mutableCopy() as! NSMutableAttributedString
 		astr.addAttributes(attributes, range: NSMakeRange(0, string.length))
 		return astr as NSAttributedString

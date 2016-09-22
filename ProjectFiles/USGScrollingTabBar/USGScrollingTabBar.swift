@@ -9,21 +9,21 @@
 import UIKit
 
 protocol USGScrollingTabBarDelegate: class {
-	func tabBarDidSelectTabAtIndex(tabBar: USGScrollingTabBar, index: Int)
+	func tabBarDidSelectTabAtIndex(_ tabBar: USGScrollingTabBar, index: Int)
 }
 
 class USGScrollingTabBar: UIView {
 	
-	private(set) var tabCount: Int = 0
-	private(set) var indexOfSelectedTab: Int = 0
+	fileprivate(set) var tabCount: Int = 0
+	fileprivate(set) var indexOfSelectedTab: Int = 0
 	
-	private var collectionView: UICollectionView?
-	private var focusView: UIView?
+	fileprivate var collectionView: UICollectionView?
+	fileprivate var focusView: UIView?
 	
-	private var tabItems = [USGScrollingTabItem]()
-	private var tabWidths = [CGFloat]()
-	private var tabIntervals = [CGFloat]()
-	private var contentMargin: CGFloat = 0 // リロード時に左右のマージンを計算して入れておく
+	fileprivate var tabItems = [USGScrollingTabItem]()
+	fileprivate var tabWidths = [CGFloat]()
+	fileprivate var tabIntervals = [CGFloat]()
+	fileprivate var contentMargin: CGFloat = 0 // リロード時に左右のマージンを計算して入れておく
 	
 	
 	weak var delegate: USGScrollingTabBarDelegate?
@@ -35,14 +35,14 @@ class USGScrollingTabBar: UIView {
 	var enabled: Bool {
 		get {
 			if let collectionView = collectionView {
-				return collectionView.scrollEnabled
+				return collectionView.isScrollEnabled
 			}
 			else {
 				return false
 			}
 		}
 		set {
-			collectionView?.scrollEnabled = newValue
+			collectionView?.isScrollEnabled = newValue
 		}
 	}
 	
@@ -61,50 +61,50 @@ class USGScrollingTabBar: UIView {
 		_init()
 	}
 	
-	private func _init() {
+	fileprivate func _init() {
 		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .Horizontal
+		layout.scrollDirection = .horizontal
 		layout.minimumInteritemSpacing = 0
 		layout.minimumLineSpacing = 0
-		layout.sectionInset = UIEdgeInsetsZero
+		layout.sectionInset = UIEdgeInsets.zero
 		
 		collectionView = UICollectionView(frame: bounds, collectionViewLayout: layout)
 		if let collectionView = collectionView {
 			collectionView.dataSource = self
 			collectionView.delegate = self
-			collectionView.backgroundColor = UIColor.clearColor()
+			collectionView.backgroundColor = UIColor.clear
 			collectionView.showsVerticalScrollIndicator = false
 			collectionView.showsHorizontalScrollIndicator = false
 			collectionView.scrollsToTop = false
-			collectionView.directionalLockEnabled = true
+			collectionView.isDirectionalLockEnabled = true
 			collectionView.delaysContentTouches = true
-			collectionView.scrollEnabled = true
+			collectionView.isScrollEnabled = true
 			
 			// Disable Cell Prefetching
 			if #available(iOS 10.0, *) {
-				collectionView.prefetchingEnabled = false
+				collectionView.isPrefetchingEnabled = false
 			}
 			
 			addSubview(collectionView)
 			
 			collectionView.translatesAutoresizingMaskIntoConstraints = false
-			addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|",
+			addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[view]-0-|",
 				options: NSLayoutFormatOptions(rawValue: 0),
 				metrics: nil,
 				views: ["view" : collectionView]))
-			addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-0-|",
+			addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[view]-0-|",
 				options: NSLayoutFormatOptions(rawValue: 0),
 				metrics: nil,
 				views: ["view" : collectionView]))
 			
-			collectionView.registerNib(USGScrollingTabCell.nib(), forCellWithReuseIdentifier: "cell")
+			collectionView.register(USGScrollingTabCell.nib(), forCellWithReuseIdentifier: "cell")
 		}
 	}
 	
 	
 	// MARK: -
 	
-	private func calculateTabInfo(tabItems: [USGScrollingTabItem]) -> (tabWidths: [CGFloat], tabIntervals: [CGFloat]) {
+	fileprivate func calculateTabInfo(_ tabItems: [USGScrollingTabItem]) -> (tabWidths: [CGFloat], tabIntervals: [CGFloat]) {
 		guard let collectionView = collectionView else {
 			return (tabWidths: [CGFloat](), tabIntervals: [CGFloat]())
 		}
@@ -116,7 +116,7 @@ class USGScrollingTabBar: UIView {
 		var totalTabWidth = tabBarInset
 		var tabIntervalAdjusted = false
 		
-		for (idx, prevTabItem) in tabItems.enumerate() {
+		for (idx, prevTabItem) in tabItems.enumerated() {
 			let prevTabWidth = USGScrollingTabCell.tabWidth(prevTabItem.normalString, tabInset: tabInset)
 			tabWidthArray.append(prevTabWidth)
 			
@@ -165,14 +165,14 @@ class USGScrollingTabBar: UIView {
 	
 	
 	// 一次関数
-	private func linearFunction(x: CGFloat, a1: CGFloat, a2: CGFloat, index: Int) -> CGFloat {
+	fileprivate func linearFunction(_ x: CGFloat, a1: CGFloat, a2: CGFloat, index: Int) -> CGFloat {
 		let a = a1 - a2
 		let b = -a * CGFloat(index) + a2
 		let y = a * x + b
 		return y
 	}
 	
-	func tabAction(sender: USGScrollingTabCell) {
+	func tabAction(_ sender: USGScrollingTabCell) {
 		_selectTabAtIndex(sender.index, animated: true)
 		delegate?.tabBarDidSelectTabAtIndex(self, index: sender.index)
 	}
@@ -181,7 +181,7 @@ class USGScrollingTabBar: UIView {
 	// MARK: -
 	
 	/// Should use Auto Sizing
-	func setFocusView(newFocusView: UIView?) {
+	func setFocusView(_ newFocusView: UIView?) {
 		if let focusView = self.focusView {
 			focusView.removeFromSuperview()
 		}
@@ -193,7 +193,7 @@ class USGScrollingTabBar: UIView {
 		focusView = newFocusView
 	}
 	
-	func reloadTabs(items: [USGScrollingTabItem]) {
+	func reloadTabs(_ items: [USGScrollingTabItem]) {
 		guard let collectionView = collectionView else {
 			return
 		}
@@ -211,7 +211,7 @@ class USGScrollingTabBar: UIView {
 		
 		// マージンを計算：コンテンツがビュー幅未満なら、中央配置になるようマージンを算出、スクローラブルなら tabBarInset を設定
 		// (ビュー幅 - (タブ幅合計値 + タブ間隔合計値 - 指定マージン)) / 2
-		let contentLength = tabWidths.reduce(0, combine: +) + max(tabSpacing * CGFloat(tabWidths.count) - tabSpacing, 0)
+		let contentLength = tabWidths.reduce(0, +) + max(tabSpacing * CGFloat(tabWidths.count) - tabSpacing, 0)
 		contentMargin = max((collectionView.width - contentLength) / 2.0, tabBarInset)
 		
 		indexOfSelectedTab = 0
@@ -222,16 +222,16 @@ class USGScrollingTabBar: UIView {
 			if items.count > 0 {
 				focusView.x = contentMargin
 				focusView.width = tabWidths[indexOfSelectedTab]
-				focusView.hidden = false
+				focusView.isHidden = false
 			}
 			else {
-				focusView.hidden = true
+				focusView.isHidden = true
 			}
 		}
 		
-		UIView.transitionWithView(collectionView,
+		UIView.transition(with: collectionView,
 		                          duration: 0.33,
-		                          options: .TransitionCrossDissolve,
+		                          options: .transitionCrossDissolve,
 		                          animations: {
 									collectionView.reloadData()
 			},
@@ -243,7 +243,7 @@ class USGScrollingTabBar: UIView {
 		_selectTabAtIndex(indexOfSelectedTab, animated: false)
 	}
 	
-	func scrollToOffset(pageOffset: CGFloat) {
+	func scrollToOffset(_ pageOffset: CGFloat) {
 		guard let collectionView = collectionView else {
 			return
 		}
@@ -258,7 +258,7 @@ class USGScrollingTabBar: UIView {
 		let pageIndexRaw = Int(floor(pageRate))
 		let pageIndex = Int(max(min(CGFloat(floor(pageRate)), CGFloat(count-1)), 0.0))
 		let pageIndexRounded = Int(max(min(CGFloat(round(pageRate)), CGFloat(count-1)), 0.0))
-		let selectionIndexPath = NSIndexPath(forRow: pageIndexRounded, inSection: 0)
+		let selectionIndexPath = IndexPath(row: pageIndexRounded, section: 0)
 		
 		indexOfSelectedTab = pageIndexRounded
 		
@@ -294,8 +294,8 @@ class USGScrollingTabBar: UIView {
 		
 		
 		// オフセットとフォーカスのフレームを設定
-		collectionView.contentOffset = CGPointMake(tabBarOffset, 0)
-		collectionView.selectItemAtIndexPath(selectionIndexPath, animated: true, scrollPosition: .None)
+		collectionView.contentOffset = CGPoint(x: tabBarOffset, y: 0)
+		collectionView.selectItem(at: selectionIndexPath, animated: true, scrollPosition: UICollectionViewScrollPosition())
 		
 		if let focusView = focusView {
 			focusView.x = focusOffset
@@ -303,14 +303,14 @@ class USGScrollingTabBar: UIView {
 		}
 	}
 	
-	func selectTabAtIndex(index: Int, animated: Bool) {
+	func selectTabAtIndex(_ index: Int, animated: Bool) {
 		collectionView?.layoutIfNeeded()
-		dispatch_async(dispatch_get_main_queue(), {
+		DispatchQueue.main.async(execute: {
 			self._selectTabAtIndex(index, animated: animated)
 		})
 	}
 	
-	private func _selectTabAtIndex(index: Int, animated: Bool) {
+	fileprivate func _selectTabAtIndex(_ index: Int, animated: Bool) {
 		let index = max(min(index, tabItems.count - 1), 0)
 		
 		guard let collectionView = collectionView else {
@@ -318,18 +318,18 @@ class USGScrollingTabBar: UIView {
 		}
 		
 		indexOfSelectedTab = index
-		let indexPath = NSIndexPath(forRow: index, inSection: 0)
+		let indexPath = IndexPath(row: index, section: 0)
 		
-		collectionView.selectItemAtIndexPath(indexPath, animated: animated, scrollPosition: .CenteredHorizontally)
+		collectionView.selectItem(at: indexPath, animated: animated, scrollPosition: .centeredHorizontally)
 		
-		if let tab = collectionView.cellForItemAtIndexPath(indexPath), let focusView = focusView {
+		if let tab = collectionView.cellForItem(at: indexPath), let focusView = focusView {
 			var targetFrame = focusView.frame
 			targetFrame.origin.x = tab.x
 			targetFrame.size.width = tabWidths[index]
 			
-			UIView.animateWithDuration(animated ? 0.3 : 0.0,
+			UIView.animate(withDuration: animated ? 0.3 : 0.0,
 			                           delay: 0.0,
-			                           options: [.BeginFromCurrentState],
+			                           options: [.beginFromCurrentState],
 			                           animations: {
 										focusView.frame = targetFrame
 				},
@@ -349,16 +349,16 @@ class USGScrollingTabBar: UIView {
 
 extension USGScrollingTabBar: UICollectionViewDataSource {
 	
-	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return tabItems.count
 	}
 	
-	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-		let tabItem = tabItems[indexPath.row]
-		let tab = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! USGScrollingTabCell
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let tabItem = tabItems[(indexPath as NSIndexPath).row]
+		let tab = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! USGScrollingTabCell
 		
 		tab.collectionView = collectionView
-		tab.index = indexPath.row
+		tab.index = (indexPath as NSIndexPath).row
 		tab.target = self
 		tab.buttonAction = #selector(tabAction(_:))
 		
@@ -374,14 +374,14 @@ extension USGScrollingTabBar: UICollectionViewDataSource {
 
 extension USGScrollingTabBar: UICollectionViewDelegate {
 	
-	func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 		
 		if let tab = cell as? USGScrollingTabCell {
 			tab.layoutSubviews()
 		}
 		
 		if let focusView = focusView {
-			collectionView.insertSubview(focusView, atIndex: 0)
+			collectionView.insertSubview(focusView, at: 0)
 		}
 	}
 	
@@ -395,13 +395,13 @@ extension USGScrollingTabBar: UICollectionViewDelegate {
 
 extension USGScrollingTabBar: UICollectionViewDelegateFlowLayout {
 	
-	func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-		let tabItem = tabItems[indexPath.row]
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		let tabItem = tabItems[(indexPath as NSIndexPath).row]
 		let tabWidth = USGScrollingTabCell.tabWidth(tabItem.normalString, tabInset: tabInset)
-		return CGSizeMake(tabWidth, collectionView.height)
+		return CGSize(width: tabWidth, height: collectionView.height)
 	}
 	
-	func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
 		// コンテンツが少なければ（スクローラブルでなければ）中央配置になる想定
 		return UIEdgeInsetsMake(0, contentMargin, 0, contentMargin)
 	}

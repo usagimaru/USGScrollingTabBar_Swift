@@ -20,13 +20,13 @@ class USGScrollingTabCell: UICollectionViewCell {
 	weak var target: AnyObject?
 	var buttonAction: Selector?
 	
-	override var highlighted: Bool {
+	override var isHighlighted: Bool {
 		didSet {
 			setNeedsLayout()
 		}
 	}
 	
-	override var selected: Bool {
+	override var isSelected: Bool {
 		didSet {
 			setNeedsLayout()
 		}
@@ -37,13 +37,13 @@ class USGScrollingTabCell: UICollectionViewCell {
 	@IBOutlet weak var rightConstraint: NSLayoutConstraint!
 	@IBOutlet weak var button: UIButton!
 	
-	private static var padding: UIEdgeInsets = UIEdgeInsetsZero
+	fileprivate static var padding: UIEdgeInsets = UIEdgeInsets.zero
 	
 	
 	override class func initialize() {
 		super.initialize()
 		
-		if let cell = self.nib().instantiateWithOwner(nil, options: nil).first as? USGScrollingTabCell {
+		if let cell = self.nib().instantiate(withOwner: nil, options: nil).first as? USGScrollingTabCell {
 			padding = UIEdgeInsetsMake(0, cell.leftConstraint.constant, 0, cell.rightConstraint.constant)
 		}
 	}
@@ -53,10 +53,10 @@ class USGScrollingTabCell: UICollectionViewCell {
 		return UINib(nibName: "USGScrollingTabCell", bundle: nil)
 	}
 	
-	class func tabWidth(string: NSAttributedString, tabInset: CGFloat) -> CGFloat {
+	class func tabWidth(_ string: NSAttributedString, tabInset: CGFloat) -> CGFloat {
 		// 文字列の必要な幅を計算
-		let bounds = string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max),
-		                                         options: [.UsesLineFragmentOrigin],
+		let bounds = string.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude),
+		                                         options: [.usesLineFragmentOrigin],
 		                                         context: nil)
 		
 		// 余白をたす。繰上げしないと収まりきらない
@@ -66,7 +66,7 @@ class USGScrollingTabCell: UICollectionViewCell {
 	}
 	
 	
-	func setNormalStringWithoutAnimation(string: NSAttributedString) {
+	func setNormalStringWithoutAnimation(_ string: NSAttributedString) {
 		normalString = string
 		label.attributedText = string
 	}
@@ -79,7 +79,7 @@ class USGScrollingTabCell: UICollectionViewCell {
 			return
 		}
 		
-		guard let indexPath = collectionView.indexPathsForSelectedItems()!.first else {
+		guard let indexPath = collectionView.indexPathsForSelectedItems!.first else {
 			return
 		}
 		
@@ -87,25 +87,25 @@ class USGScrollingTabCell: UICollectionViewCell {
 		setAttributedText(false, indexPath: indexPath)
 	}
 	
-	private func setAttributedText(animated: Bool, indexPath: NSIndexPath) {
+	fileprivate func setAttributedText(_ animated: Bool, indexPath: IndexPath) {
 		var str: NSAttributedString? = nil
 		
-		if highlighted {
+		if isHighlighted {
 			str = highlightedString
 		}
-		else if selected == true && index == indexPath.row {
+		else if isSelected == true && index == (indexPath as NSIndexPath).row {
 			str = selectedString
 		}
-		else if indexPath.row != index {
+		else if (indexPath as NSIndexPath).row != index {
 			str = normalString
 		}
 		
 		if let str = str {
 			label.attributedText = str
-			let duration: NSTimeInterval = highlighted == true && animated == true ? 0.2 : 0.0
-			UIView.transitionWithView(label,
+			let duration: TimeInterval = isHighlighted == true && animated == true ? 0.2 : 0.0
+			UIView.transition(with: label,
 			                          duration: duration,
-			                          options: [.TransitionCrossDissolve, .BeginFromCurrentState],
+			                          options: [.transitionCrossDissolve, .beginFromCurrentState],
 			                          animations: {
 										self.label.attributedText = str },
 			                          completion: nil)
@@ -113,9 +113,9 @@ class USGScrollingTabCell: UICollectionViewCell {
 	}
 	
 	
-	@IBAction private func buttonAction(sender: AnyObject) {
+	@IBAction fileprivate func buttonAction(_ sender: AnyObject) {
 		if let buttonAction = buttonAction {
-			target?.performSelector(buttonAction, withObject: self)
+			target?.perform(buttonAction, with: self)
 		}
 	}
 }
