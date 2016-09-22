@@ -17,7 +17,7 @@ class USGScrollingTabCell: UICollectionViewCell {
 	var selectedString: NSAttributedString?
 	
 	weak var collectionView: UICollectionView?
-	weak var target: AnyObject?
+	weak var target: NSObjectProtocol?
 	var buttonAction: Selector?
 	
 	override var isHighlighted: Bool {
@@ -93,10 +93,10 @@ class USGScrollingTabCell: UICollectionViewCell {
 		if isHighlighted {
 			str = highlightedString
 		}
-		else if isSelected == true && index == (indexPath as NSIndexPath).row {
+		else if isSelected == true && index == (indexPath as IndexPath).row {
 			str = selectedString
 		}
-		else if (indexPath as NSIndexPath).row != index {
+		else if (indexPath as IndexPath).row != index {
 			str = normalString
 		}
 		
@@ -115,7 +115,7 @@ class USGScrollingTabCell: UICollectionViewCell {
 	
 	@IBAction fileprivate func buttonAction(_ sender: AnyObject) {
 		if let buttonAction = buttonAction {
-			target?.perform(buttonAction, with: self)
+			let _ = target?.perform(buttonAction, with: self)
 		}
 	}
 }
