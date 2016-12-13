@@ -32,6 +32,8 @@ class USGScrollingTabBar: UIView {
 	var tabSpacing: CGFloat = 0.0
 	var tabInset: CGFloat = 0.0
 	var focusVerticalMargin: CGFloat = 0.0
+	var fixedTabWidth: CGFloat?
+	var animateWhenTabSelection: Bool = true
 	var enabled: Bool {
 		get {
 			if let collectionView = collectionView {
@@ -117,6 +119,12 @@ class USGScrollingTabBar: UIView {
 		var tabIntervalAdjusted = false
 		
 		for (idx, prevTabItem) in tabItems.enumerated() {
+			if let fixedTabWidth = fixedTabWidth {
+				tabWidthArray.append(fixedTabWidth)
+				continue
+			}
+			
+			
 			let prevTabWidth = USGScrollingTabCell.tabWidth(prevTabItem.normalString, tabInset: tabInset)
 			tabWidthArray.append(prevTabWidth)
 			
@@ -173,7 +181,7 @@ class USGScrollingTabBar: UIView {
 	}
 	
 	func tabAction(_ sender: USGScrollingTabCell) {
-		_selectTabAtIndex(sender.index, animated: true)
+		_selectTabAtIndex(sender.index, animated: animateWhenTabSelection)
 		delegate?.tabBarDidSelectTabAtIndex(self, index: sender.index)
 	}
 	
@@ -327,13 +335,18 @@ class USGScrollingTabBar: UIView {
 			targetFrame.origin.x = tab.x
 			targetFrame.size.width = tabWidths[index]
 			
-			UIView.animate(withDuration: animated ? 0.3 : 0.0,
-			                           delay: 0.0,
-			                           options: [.beginFromCurrentState],
-			                           animations: {
-										focusView.frame = targetFrame
+			if animated {
+				UIView.animate(withDuration: 0.3,
+				               delay: 0.0,
+				               options: [.beginFromCurrentState],
+				               animations: {
+								focusView.frame = targetFrame
 				},
-			                           completion: nil)
+				               completion: nil)
+			}
+			else {
+				focusView.frame = targetFrame
+			}
 		}
 		
 	}
@@ -392,7 +405,12 @@ extension USGScrollingTabBar: UICollectionViewDelegateFlowLayout {
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		let tabItem = tabItems[(indexPath as NSIndexPath).row]
-		let tabWidth = USGScrollingTabCell.tabWidth(tabItem.normalString, tabInset: tabInset)
+		var tabWidth = USGScrollingTabCell.tabWidth(tabItem.normalString, tabInset: tabInset)
+		
+		if let fixedTabWidth = fixedTabWidth {
+			tabWidth = fixedTabWidth
+		}
+		
 		return CGSize(width: tabWidth, height: collectionView.height)
 	}
 	
