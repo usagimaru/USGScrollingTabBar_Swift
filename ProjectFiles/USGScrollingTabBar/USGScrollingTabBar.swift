@@ -3,13 +3,13 @@
 //  ScrollingTabBar
 //
 //  Created by Satori Maru on 16.07.04.
-//  Copyright © 2015-2016 usagimaru. All rights reserved.
+//  Copyright © 2015-2017 usagimaru. All rights reserved.
 //
 
 import UIKit
 
 protocol USGScrollingTabBarDelegate: class {
-	func tabBarDidSelectTabAtIndex(_ tabBar: USGScrollingTabBar, index: Int)
+	func tabBar(_ tabBar: USGScrollingTabBar, didSelectTabAt index: Int)
 }
 
 class USGScrollingTabBar: UIView {
@@ -27,13 +27,17 @@ class USGScrollingTabBar: UIView {
 	
 	
 	weak var delegate: USGScrollingTabBarDelegate?
-	var pageWidth: CGFloat = 0.0
+	/// ページ幅
+	var pageWidth: CGFloat = 1.0
+	/// タブバー左右余白
 	var tabBarInset: CGFloat = 0.0
+	/// タブ同士の間隔
 	var tabSpacing: CGFloat = 0.0
+	/// タブ内左右余白
 	var tabInset: CGFloat = 0.0
 	var focusVerticalMargin: CGFloat = 0.0
+	/// 固定幅にする場合はここで指定
 	var fixedTabWidth: CGFloat?
-	var animateWhenTabSelection: Bool = true
 	var enabled: Bool {
 		get {
 			if let collectionView = collectionView {
@@ -47,6 +51,7 @@ class USGScrollingTabBar: UIView {
 			collectionView?.isScrollEnabled = newValue
 		}
 	}
+	var animateWhenTabSelection: Bool = true
 	
 	
 	override init(frame: CGRect) {
@@ -119,14 +124,19 @@ class USGScrollingTabBar: UIView {
 		var tabIntervalAdjusted = false
 		
 		for (idx, prevTabItem) in tabItems.enumerated() {
+			var prevTabWidth = CGFloat(0)
+			
 			if let fixedTabWidth = fixedTabWidth {
+				// 固定幅の場合
+				prevTabWidth = fixedTabWidth + tabInset * 2.0
 				tabWidthArray.append(fixedTabWidth)
-				continue
+			}
+			else {
+				// テキストに合わせた可変幅の場合
+				prevTabWidth = USGScrollingTabCell.tabWidth(prevTabItem.normalString, tabInset: tabInset)
+				tabWidthArray.append(prevTabWidth)
 			}
 			
-			
-			let prevTabWidth = USGScrollingTabCell.tabWidth(prevTabItem.normalString, tabInset: tabInset)
-			tabWidthArray.append(prevTabWidth)
 			
 			// タブ同士の間隔を計算
 			if idx < tabItems.count - 1 {
@@ -138,7 +148,16 @@ class USGScrollingTabBar: UIView {
 				if idx + 1 < tabItems.count {
 					nextTabItem = tabItems[idx + 1]
 					
-					let nextTabWidth = USGScrollingTabCell.tabWidth(nextTabItem!.normalString, tabInset: tabInset)
+					var nextTabWidth = CGFloat(0)
+					
+					if let fixedTabWidth = fixedTabWidth {
+						// 固定幅の場合
+						nextTabWidth = fixedTabWidth + tabInset * 2.0
+					}
+					else {
+						// テキストに合わせた可変幅の場合
+						nextTabWidth = USGScrollingTabCell.tabWidth(nextTabItem!.normalString, tabInset: tabInset)
+					}
 					
 					var tabInterval: CGFloat = 0
 					
@@ -182,13 +201,13 @@ class USGScrollingTabBar: UIView {
 	
 	func tabAction(_ sender: USGScrollingTabCell) {
 		_selectTabAtIndex(sender.index, animated: animateWhenTabSelection)
-		delegate?.tabBarDidSelectTabAtIndex(self, index: sender.index)
+		delegate?.tabBar(self, didSelectTabAt: sender.index)
 	}
 	
 	
 	// MARK: -
 	
-	/// Should use Auto Sizing
+	/// Should layout with Auto Sizing
 	func setFocusView(_ newFocusView: UIView?) {
 		if let focusView = self.focusView {
 			focusView.removeFromSuperview()
@@ -201,7 +220,7 @@ class USGScrollingTabBar: UIView {
 		focusView = newFocusView
 	}
 	
-	func reloadTabs(_ items: [USGScrollingTabItem]) {
+	func reloadTabs(_ items: [USGScrollingTabItem], indexOf selectedTab: Int = 0) {
 		guard let collectionView = collectionView else {
 			return
 		}
@@ -222,7 +241,7 @@ class USGScrollingTabBar: UIView {
 		let contentLength = tabWidths.reduce(0, +) + max(tabSpacing * CGFloat(tabWidths.count) - tabSpacing, 0)
 		contentMargin = max((collectionView.width - contentLength) / 2.0, tabBarInset)
 		
-		indexOfSelectedTab = 0
+		indexOfSelectedTab = selectedTab
 		if let focusView = focusView {
 			focusView.y = focusVerticalMargin
 			focusView.height = height - focusVerticalMargin * 2.0
@@ -258,6 +277,10 @@ class USGScrollingTabBar: UIView {
 		
 		let count = tabItems.count
 		let pageWidth = self.pageWidth
+		
+		if pageWidth == 0 {
+			return
+		}
 		
 		// ページレート
 		let pageRate = pageOffset / pageWidth

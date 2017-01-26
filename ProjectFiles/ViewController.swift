@@ -42,11 +42,14 @@ class ViewController: UIViewController {
 		
 		buildSamplePages()
 		
+		let firstPageIndex = 2
+		
 		focusView.layer.cornerRadius = (scrollingTabBar.height - scrollingTabBar.focusVerticalMargin * 2.0) / 2.0
 		scrollView.contentSize = CGSize(width: view.width * CGFloat(tabItems.count), height: scrollView.contentSize.height)
 		scrollingTabBar.width = view.width
 		scrollingTabBar.pageWidth = scrollView.width
-		scrollingTabBar.reloadTabs(tabItems)
+		scrollingTabBar.reloadTabs(tabItems, indexOf: firstPageIndex)
+		scrollView.setContentOffset(CGPoint(x: scrollView.width * CGFloat(firstPageIndex), y: scrollView.contentOffset.y), animated: false)
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -129,8 +132,8 @@ class ViewController: UIViewController {
 			let imageView = UIImageView(image: UIImage(named: "\(idx)"))
 			imageView.contentMode = .scaleAspectFit
 			imageView.x = scrollView.width * CGFloat(idx)
-			imageView.y = 30
-			imageView.height = 500
+			imageView.y = 40
+			imageView.height = 400
 			imageView.width = scrollView.width
 			scrollView.addSubview(imageView)
 		}
@@ -140,7 +143,7 @@ class ViewController: UIViewController {
 
 extension ViewController: USGScrollingTabBarDelegate {
 	
-	func tabBarDidSelectTabAtIndex(_ tabBar: USGScrollingTabBar, index: Int) {
+	func tabBar(_ tabBar: USGScrollingTabBar, didSelectTabAt index: Int) {
 		scrollView.setContentOffset(CGPoint(x: scrollView.width * CGFloat(index), y: scrollView.contentOffset.y), animated: true)
 	}
 }

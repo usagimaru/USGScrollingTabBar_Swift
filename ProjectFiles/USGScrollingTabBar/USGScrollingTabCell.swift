@@ -3,7 +3,7 @@
 //  ScrollingTabBar
 //
 //  Created by Satori Maru on 16.07.04.
-//  Copyright © 2015-2016 usagimaru. All rights reserved.
+//  Copyright © 2015-2017 usagimaru. All rights reserved.
 //
 
 import UIKit
