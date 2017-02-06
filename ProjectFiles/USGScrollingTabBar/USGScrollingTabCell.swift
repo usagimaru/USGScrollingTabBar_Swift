@@ -53,14 +53,14 @@ class USGScrollingTabCell: UICollectionViewCell {
 		return UINib(nibName: "USGScrollingTabCell", bundle: nil)
 	}
 	
-	class func tabWidth(_ string: NSAttributedString, tabInset: CGFloat) -> CGFloat {
+	class func tabWidth(_ string: NSAttributedString) -> CGFloat {
 		// 文字列の必要な幅を計算
 		let bounds = string.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude),
 		                                         options: [.usesLineFragmentOrigin],
 		                                         context: nil)
 		
 		// 余白をたす。繰上げしないと収まりきらない
-		let w = max(ceil(bounds.size.width + padding.left + padding.right) + tabInset * 2.0, 1.0)
+		let w = max(ceil(bounds.size.width + padding.left + padding.right), 1.0)
 		
 		return w
 	}

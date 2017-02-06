@@ -22,9 +22,9 @@ class ViewController: UIViewController {
 		
 		scrollingTabBar.delegate = self
 		scrollingTabBar.tabBarInset = 8
-		scrollingTabBar.tabInset = 12
-		scrollingTabBar.tabSpacing = 1
+		scrollingTabBar.tabSpacing = 16
 		scrollingTabBar.focusVerticalMargin = 4
+//		scrollingTabBar.fixedTabWidth = 213
 		scrollingTabBar.setFocusView(focusView)
 		
 		buildSampleItems()
