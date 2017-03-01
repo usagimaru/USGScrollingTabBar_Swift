@@ -14,6 +14,9 @@ protocol USGScrollingTabBarDelegate: class {
 
 class USGScrollingTabBar: UIView {
 	
+	/// Layout Debugging
+	let kDebugMode: Bool = false
+	
 	fileprivate(set) var tabCount: Int = 0
 	fileprivate(set) var indexOfSelectedTab: Int = 0
 	
@@ -52,6 +55,8 @@ class USGScrollingTabBar: UIView {
 		}
 	}
 	var animateWhenTabSelection: Bool = true
+	var centering: Bool = true
+	var cellClass: USGScrollingTabCell.Type = USGScrollingTabCell.self
 	
 	
 	override init(frame: CGRect) {
@@ -104,8 +109,15 @@ class USGScrollingTabBar: UIView {
 				metrics: nil,
 				views: ["view" : collectionView]))
 			
-			collectionView.register(USGScrollingTabCell.nib(), forCellWithReuseIdentifier: "cell")
+			collectionView.register(cellClass.nib(), forCellWithReuseIdentifier: "cell")
 		}
+		
+		#if DEBUG
+			if kDebugMode {
+				layer.borderColor = UIColor.green.cgColor
+				layer.borderWidth = 1.0
+			}
+		#endif
 	}
 	
 	
@@ -139,12 +151,12 @@ class USGScrollingTabBar: UIView {
 			else {
 				// テキストに合わせた可変幅の場合
 				if let selectedString = prevTabItem.selectedString {
-					let w_a = USGScrollingTabCell.tabWidth(prevTabItem.normalString)
-					let w_b = USGScrollingTabCell.tabWidth(selectedString)
+					let w_a = cellClass.tabWidth(prevTabItem.normalString)
+					let w_b = cellClass.tabWidth(selectedString)
 					prevTabWidth = max(w_a, w_b)
 				}
 				else {
-					prevTabWidth = USGScrollingTabCell.tabWidth(prevTabItem.normalString)
+					prevTabWidth = cellClass.tabWidth(prevTabItem.normalString)
 				}
 				
 				tabWidthArray.append(prevTabWidth)
@@ -170,12 +182,12 @@ class USGScrollingTabBar: UIView {
 					else {
 						// テキストに合わせた可変幅の場合
 						if let selectedString = nextTabItem!.selectedString {
-							let w_a = USGScrollingTabCell.tabWidth(nextTabItem!.normalString)
-							let w_b = USGScrollingTabCell.tabWidth(selectedString)
+							let w_a = cellClass.tabWidth(nextTabItem!.normalString)
+							let w_b = cellClass.tabWidth(selectedString)
 							nextTabWidth = max(w_a, w_b)
 						}
 						else {
-							nextTabWidth = USGScrollingTabCell.tabWidth(prevTabItem.normalString)
+							nextTabWidth = cellClass.tabWidth(prevTabItem.normalString)
 						}
 					}
 					
@@ -350,10 +362,15 @@ class USGScrollingTabBar: UIView {
 		tabWidths = tabInfo.tabWidths
 		tabIntervals = tabInfo.tabIntervals
 		
-		// マージンを計算：コンテンツがビュー幅未満なら、中央配置になるようマージンを算出、スクローラブルなら tabBarInset を設定
-		// (ビュー幅 - (タブ幅合計値 + タブ間隔合計値 - 指定マージン)) / 2
-		let contentLength = tabWidths.reduce(0, +) + max(tabSpacing * CGFloat(tabWidths.count) - tabSpacing, 0)
-		contentMargin = max((collectionView.width - contentLength) / 2.0, tabBarInset)
+		if centering {
+			// マージンを計算：コンテンツがビュー幅未満なら、中央配置になるようマージンを算出、スクローラブルなら tabBarInset を設定
+			// (ビュー幅 - (タブ幅合計値 + タブ間隔合計値 - 指定マージン)) / 2
+			let contentLength = tabWidths.reduce(0, +) + max(tabSpacing * CGFloat(tabWidths.count) - tabSpacing, 0)
+			contentMargin = max((collectionView.width - contentLength) / 2.0, tabBarInset)
+		}
+		else {
+			contentMargin = tabBarInset
+		}
 		
 		indexOfSelectedTab = selectedTab
 		if let focusView = focusView {
@@ -518,6 +535,13 @@ extension USGScrollingTabBar: UICollectionViewDataSource {
 		tab.highlightedString = tabItem.highlightedString
 		tab.selectedString = tabItem.selectedString
 		
+		#if DEBUG
+			if kDebugMode {
+				tab.layer.borderColor = UIColor.red.cgColor
+				tab.layer.borderWidth = 1.0
+			}
+		#endif
+		
 		return tab
 	}
 	
@@ -552,12 +576,12 @@ extension USGScrollingTabBar: UICollectionViewDelegateFlowLayout {
 		}
 		else {
 			if let selectedString = tabItem.selectedString {
-				let w_a = USGScrollingTabCell.tabWidth(tabItem.normalString)
-				let w_b = USGScrollingTabCell.tabWidth(selectedString)
+				let w_a = cellClass.tabWidth(tabItem.normalString)
+				let w_b = cellClass.tabWidth(selectedString)
 				tabWidth = max(w_a, w_b)
 			}
 			else {
-				tabWidth = USGScrollingTabCell.tabWidth(tabItem.normalString)
+				tabWidth = cellClass.tabWidth(tabItem.normalString)
 			}
 		}
 		

@@ -50,7 +50,7 @@ class USGScrollingTabCell: UICollectionViewCell {
 	
 	
 	class func nib() -> UINib {
-		return UINib(nibName: "USGScrollingTabCell", bundle: nil)
+		return UINib(nibName: "\(self)", bundle: nil)
 	}
 	
 	class func tabWidth(_ string: NSAttributedString) -> CGFloat {
